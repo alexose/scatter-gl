@@ -340,7 +340,7 @@ export class ScatterPlotVisualizerSprites implements ScatterPlotVisualizer {
       // by making the "far" value (that is, the distance from the camera to the
       // far edge of the fog) proportional to the number of points.
       let multiplier = 2 - Math.min(n, threshold) / threshold;
-      this.fog.far = farthestPointZ * multiplier;
+      this.fog.far = farthestPointZ * multiplier * 2;
     } else {
       this.fog.near = Infinity;
       this.fog.far = Infinity;

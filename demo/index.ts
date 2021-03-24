@@ -23,11 +23,12 @@ import {ScatterGL, RenderMode} from '../src';
 const dataPoints: Point3D[] = [];
 const metadata: PointMetadata[] = [];
 data.projection.forEach((vector, index) => {
-  const labelIndex = data.labels[index];
+  const idx = String(data.labels[index]);
   dataPoints.push(vector);
   metadata.push({
-    labelIndex,
-    label: data.labelNames[labelIndex],
+    labelIndex: idx,
+    label: data.labelIndex[idx],
+    title: data.labelNames[index],
   });
 });
 
@@ -47,9 +48,12 @@ const messagesElement = document.getElementById('messages')!;
 
 const scatterGL = new ScatterGL(containerElement, {
   onHover: (point: number | null) => {
-    const message = `🔥hover ${point}`;
-    console.log(message);
-    messagesElement.innerHTML = message;
+    if (point) {
+        const message = `${data.labelNames[point]}`;
+        messagesElement.innerHTML = message;
+    } else {
+        messagesElement.innerHTML = '';
+    }
   },
   onSelect: (points: number[]) => {
     let message = '';
@@ -104,7 +108,7 @@ document
     });
   });
 
-const hues = [...new Array(10)].map((_, i) => Math.floor((255 / 10) * i));
+const hues = [...new Array(32)].map((_, i) => Math.floor((255 / 32) * i));
 
 const lightTransparentColorsByLabel = hues.map(
   hue => `hsla(${hue}, 100%, 50%, 0.05)`
@@ -133,6 +137,10 @@ document
 
             // If nothing is selected, return the heavy color
             if (selectedIndices.size === 0) {
+              if (labelIndex === -1) {
+                return 'hsla(0,0%,50%,0.4)';
+              }
+
               return heavyTransparentColorsByLabel[labelIndex];
             }
             // Otherwise, keep the selected points heavy and non-selected light

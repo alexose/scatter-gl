@@ -22,7 +22,7 @@ import {BoundingBox, CollisionGrid} from './label';
 import {Styles} from './styles';
 import * as util from './util';
 
-const MAX_LABELS_ON_SCREEN = 10000;
+const MAX_LABELS_ON_SCREEN = 40000;
 
 /**
  * Creates and maintains a 2d canvas on top of the GL canvas. All labels, when

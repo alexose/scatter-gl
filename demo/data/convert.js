@@ -14,13 +14,15 @@ function proceed(file) {
 
     const labels = [];
     const labelNames = [];
+    const labelIndex = {};
     const projection = [];
     data.split('\n').forEach(line => {
         if (!line.length) return;
         try {
             const obj = JSON.parse(line);
+            labelIndex[obj.label] = obj.cluster_name;
             labels.push(obj.label);
-            labelNames.push(obj.cluster_name);
+            labelNames.push(obj.title);
             projection.push(obj.position);
         } catch(e) {
             console.log("Couldn't parse line " + line);
@@ -32,14 +34,16 @@ function proceed(file) {
     fs.writeFileSync(renamed,
 `export interface Data {
   labels: number[];
+  labelIndex: Record<string, string>;
   labelNames: string[];
   projection: [number, number, number][];
 }
 
 export const data: Data = {
-    labels: ${JSON.stringify(labels)}],
-    labelNames: ${JSON.stringify(labelNames)}],
-    projection: ${JSON.stringify(projection)}],
+    labels: ${JSON.stringify(labels)},
+    labelIndex: ${JSON.stringify(labelIndex)},
+    labelNames: ${JSON.stringify(labelNames)},
+    projection: ${JSON.stringify(projection)},
 }`
     );
 }

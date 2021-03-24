@@ -113,7 +113,7 @@ const makeDefaultStyles = () => {
     fog: {
       color: '#ffffff',
       enabled: true,
-      threshold: 5000,
+      threshold: 1000,
     },
 
     label: {
