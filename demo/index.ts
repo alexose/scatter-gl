@@ -27,8 +27,8 @@ data.projection.forEach((vector, index) => {
   dataPoints.push(vector);
   metadata.push({
     labelIndex: idx,
-    label: data.labelIndex[idx],
-    title: data.labelNames[index],
+    title: data.labelIndex[idx],
+    label: data.labelNames[index],
   });
 });
 
@@ -117,6 +117,11 @@ const heavyTransparentColorsByLabel = hues.map(
   hue => `hsla(${hue}, 100%, 50%, 0.75)`
 );
 const opaqueColorsByLabel = hues.map(hue => `hsla(${hue}, 100%, 50%, 1)`);
+
+// Override the color for 'Unclustered'
+lightTransparentColorsByLabel[31] = 'hsla(0, 0, 50%, 0.05)';
+heavyTransparentColorsByLabel[31] = 'hsla(0, 0, 50%, 0.4)';
+opaqueColorsByLabel[31] = 'hsla(0, 0, 50%, 1)';
 
 document
   .querySelectorAll<HTMLInputElement>('input[name="color"]')
