@@ -118,11 +118,6 @@ const heavyTransparentColorsByLabel = hues.map(
 );
 const opaqueColorsByLabel = hues.map(hue => `hsla(${hue}, 100%, 50%, 1)`);
 
-// Override the color for 'Unclustered'
-lightTransparentColorsByLabel[31] = 'hsla(0, 0, 50%, 0.05)';
-heavyTransparentColorsByLabel[31] = 'hsla(0, 0, 50%, 0.4)';
-opaqueColorsByLabel[31] = 'hsla(0, 0, 50%, 1)';
-
 document
   .querySelectorAll<HTMLInputElement>('input[name="color"]')
   .forEach(inputElement => {
@@ -142,18 +137,14 @@ document
 
             // If nothing is selected, return the heavy color
             if (selectedIndices.size === 0) {
-              if (labelIndex === -1) {
-                return 'hsla(0,0%,50%,0.4)';
-              }
-
-              return heavyTransparentColorsByLabel[labelIndex];
+              return heavyTransparentColorsByLabel[labelIndex] || 'hsla(0, 0%, 50%, 0.3)';
             }
             // Otherwise, keep the selected points heavy and non-selected light
             else {
               const isSelected = selectedIndices.has(i);
               return isSelected
-                ? heavyTransparentColorsByLabel[labelIndex]
-                : lightTransparentColorsByLabel[labelIndex];
+                ? heavyTransparentColorsByLabel[labelIndex] || 'hsla(0, 0%, 50%, 0.3)'
+                : lightTransparentColorsByLabel[labelIndex] || 'hsla(0, 0%, 50%, 0.05)';
             }
           }
         });
