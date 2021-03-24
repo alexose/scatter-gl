@@ -49,8 +49,9 @@ const messagesElement = document.getElementById('messages')!;
 const scatterGL = new ScatterGL(containerElement, {
   onHover: (point: number | null) => {
     if (point) {
-        const message = `${data.labelNames[point]}`;
-        messagesElement.innerHTML = message;
+        const position = data.labels[point];
+        const message = `${data.labelIndex[String(position)]}`;
+        messagesElement.innerHTML = `Cluster: ${message}`;
     } else {
         messagesElement.innerHTML = '';
     }
